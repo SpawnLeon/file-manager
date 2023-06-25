@@ -2,6 +2,7 @@ import os from 'node:os';
 import readline from 'node:readline';
 import { EXIT_MESSAGE, GREAT_MESSAGE, PROMPT_MESSAGE } from './const.js';
 import getArguments from './modules/cli/args.js';
+import add from './modules/file-system/add.js';
 import cat from './modules/file-system/cat.js';
 import changeDirectory from './modules/file-system/change-directory.js';
 import listDirectory from './modules/file-system/list-directory.js';
@@ -52,7 +53,9 @@ rl.on('line', async (input) => {
       case 'cat':
         const content = await cat(currentDirectory + '/' + args[0]);
         console.log(content);
-
+        break;
+      case 'add':
+        await add(currentDirectory + '/' + args[0])
         break;
 
       default:
