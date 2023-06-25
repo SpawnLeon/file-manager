@@ -6,6 +6,7 @@ import add from './modules/file-system/add.js';
 import cat from './modules/file-system/cat.js';
 import changeDirectory from './modules/file-system/change-directory.js';
 import listDirectory from './modules/file-system/list-directory.js';
+import rn from './modules/file-system/rn.js';
 
 const args = getArguments();
 const username = args.username || 'Guest';
@@ -38,6 +39,7 @@ rl.on('line', async (input) => {
       case '.exit':
         process.kill(process.pid, 'SIGINT');
         break;
+
       case 'ls':
         const data = await listDirectory(currentDirectory);
         const formattedData = data.map(({ name, type }) => ({
@@ -46,16 +48,23 @@ rl.on('line', async (input) => {
         }));
         console.table(formattedData);
         break;
+
       case 'cd':
         currentDirectory = await changeDirectory(args[0]);
         rl.setPrompt(PROMPT_MESSAGE(currentDirectory));
         break;
+
       case 'cat':
         const content = await cat(currentDirectory + '/' + args[0]);
         console.log(content);
         break;
+
       case 'add':
-        await add(currentDirectory + '/' + args[0])
+        await add(currentDirectory + '/' + args[0]);
+        break;
+
+      case 'rn':
+        await rn(args[0], args[1], currentDirectory);
         break;
 
       default:
