@@ -1,9 +1,9 @@
 import { promises as fs } from 'node:fs';
-import path from 'node:path';
+import { join } from 'node:path';
 
 async function listDirectory(currentDirectory) {
   const contents = await fs.readdir(currentDirectory);
-  const statsPromises = contents.map(name => fs.stat(path.join(currentDirectory, name)));
+  const statsPromises = contents.map(name => fs.stat(join(currentDirectory, name)));
   const stats = await Promise.all(statsPromises);
 
   const data = contents.map((name, index) => {

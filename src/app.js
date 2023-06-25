@@ -1,14 +1,15 @@
-import readline from 'node:readline';
 import os from 'node:os';
-import { EXIT_MESSAGE, PROMPT_MESSAGE } from './const.js';
+import readline from 'node:readline';
+import { EXIT_MESSAGE, GREAT_MESSAGE, PROMPT_MESSAGE } from './const.js';
 import getArguments from './modules/cli/args.js';
+import cat from './modules/file-system/cat.js';
 import changeDirectory from './modules/file-system/change-directory.js';
 import listDirectory from './modules/file-system/list-directory.js';
 
 const args = getArguments();
 const username = args.username || 'Guest';
 
-console.log(`Welcome to the File Manager, ${username}!`);
+console.log(GREAT_MESSAGE(username));
 
 let currentDirectory = os.homedir();
 
@@ -40,24 +41,29 @@ rl.on('line', async (input) => {
         const data = await listDirectory(currentDirectory);
         const formattedData = data.map(({ name, type }) => ({
           Name: name,
-          Type: type
+          Type: type,
         }));
-        console.table(formattedData)
+        console.table(formattedData);
         break;
       case 'cd':
         currentDirectory = await changeDirectory(args[0]);
         rl.setPrompt(PROMPT_MESSAGE(currentDirectory));
         break;
+      case 'cat':
+        const content = await cat(currentDirectory + '/' + args[0]);
+        console.log(content);
+
+        break;
 
       default:
         console.log('Invalid input');
     }
+    rl.setPrompt(PROMPT_MESSAGE(currentDirectory));
   } catch (e) {
     console.log('Operation failed');
     // TODO: remove
     console.error(e);
   }
-
 
   rl.prompt();
 });

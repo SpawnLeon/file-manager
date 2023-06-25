@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
-async function changeDirectory(dir, currentDirectory='/') {
+async function changeDirectory(dir, currentDirectory = '/') {
   const newPath = path.resolve(currentDirectory, dir);
 
   try {
