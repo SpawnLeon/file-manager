@@ -24,7 +24,9 @@ rl.on('line', async (input) => {
   const [command, ...args] = input.split(' ');
 
   switch(command) {
-
+    case '.exit':
+      process.exit();
+      break;
     case 'cd':
       currentDirectory = await changeDirectory(args[0]);
       rl.setPrompt(`${currentDirectory}> `);
