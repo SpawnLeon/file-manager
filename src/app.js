@@ -7,6 +7,7 @@ import cat from './modules/file-system/cat.js';
 import changeDirectory from './modules/file-system/change-directory.js';
 import cp from './modules/file-system/cp.js';
 import listDirectory from './modules/file-system/list-directory.js';
+import mv from './modules/file-system/mv.js';
 import rn from './modules/file-system/rn.js';
 
 const args = getArguments();
@@ -69,6 +70,9 @@ rl.on('line', async (input) => {
         break;
       case 'cp':
         await cp(args[0], args[1], currentDirectory);
+        break;
+      case 'mv':
+        await mv(args[0], args[1], currentDirectory);
         break;
 
       default:
