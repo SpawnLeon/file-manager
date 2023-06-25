@@ -8,7 +8,9 @@ import changeDirectory from './modules/file-system/change-directory.js';
 import cp from './modules/file-system/cp.js';
 import listDirectory from './modules/file-system/list-directory.js';
 import mv from './modules/file-system/mv.js';
+import rm from './modules/file-system/rm.js';
 import rn from './modules/file-system/rn.js';
+import printSystemInfo from './modules/os.js';
 
 const args = getArguments();
 const username = args.username || 'Guest';
@@ -73,6 +75,12 @@ rl.on('line', async (input) => {
         break;
       case 'mv':
         await mv(args[0], args[1], currentDirectory);
+        break;
+      case 'rm':
+        await rm(args[0], currentDirectory);
+        break;
+      case 'os':
+        printSystemInfo(args[0]);
         break;
 
       default:
