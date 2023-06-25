@@ -1,11 +1,11 @@
-import fs from 'node:fs';
+import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 async function changeDirectory(dir, currentDirectory='/') {
   const newPath = path.resolve(currentDirectory, dir);
 
   try {
-    await fs.promises.access(newPath);
+    await fs.access(newPath);
     currentDirectory = newPath;
     return currentDirectory;
   } catch (error) {
