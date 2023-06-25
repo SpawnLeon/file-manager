@@ -5,3 +5,7 @@ export  const EXIT_MESSAGE =  (username) => {
 export  const GREAT_MESSAGE =  (username) => {
   return `Welcome to the File Manager, ${username}!`
 }
+
+export const PROMPT_MESSAGE = (currentDirectory) => {
+  return `You are currently in ${currentDirectory}> `
+}

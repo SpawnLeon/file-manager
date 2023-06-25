@@ -1,6 +1,6 @@
 import readline from 'node:readline';
 import os from 'node:os';
-import { EXIT_MESSAGE } from './const.js';
+import { EXIT_MESSAGE, PROMPT_MESSAGE } from './const.js';
 import getArguments from './modules/cli/args.js';
 import changeDirectory from './modules/file-system/change-directory.js';
 
@@ -14,7 +14,7 @@ let currentDirectory = os.homedir();
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: `${currentDirectory}> `,
+  prompt: PROMPT_MESSAGE(currentDirectory),
 });
 
 rl.prompt();
@@ -37,7 +37,7 @@ rl.on('line', async (input) => {
       break;
     case 'cd':
       currentDirectory = await changeDirectory(args[0]);
-      rl.setPrompt(`${currentDirectory}> `);
+      rl.setPrompt(PROMPT_MESSAGE(currentDirectory));
       break;
 
     default:
