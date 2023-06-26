@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs';
 import { join } from 'node:path';
 
-async function listDirectory(currentDirectory) {
+async function ld(currentDirectory) {
   const contents = await fs.readdir(currentDirectory);
   const statsPromises = contents.map(name => fs.stat(join(currentDirectory, name)));
   const stats = await Promise.all(statsPromises);
@@ -32,4 +32,4 @@ async function listDirectory(currentDirectory) {
   return data;
 }
 
-export default listDirectory;
+export default ld;

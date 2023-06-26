@@ -2,14 +2,7 @@ import os from 'node:os';
 import readline from 'node:readline';
 import { EXIT_MESSAGE, GREAT_MESSAGE, PROMPT_MESSAGE } from './const.js';
 import getArguments from './modules/cli/args.js';
-import add from './modules/file-system/add.js';
-import cat from './modules/file-system/cat.js';
-import changeDirectory from './modules/file-system/change-directory.js';
-import cp from './modules/file-system/cp.js';
-import listDirectory from './modules/file-system/list-directory.js';
-import mv from './modules/file-system/mv.js';
-import rm from './modules/file-system/rm.js';
-import rn from './modules/file-system/rn.js';
+import { add, cat, cd, cp, ls, mv, rm, rn } from './modules/file-system/index.js';
 import hash from './modules/hash.js';
 import printSystemInfo from './modules/os.js';
 import compress from './modules/zip/compress.js';
@@ -48,7 +41,7 @@ rl.on('line', async (input) => {
         break;
 
       case 'ls':
-        const data = await listDirectory(currentDirectory);
+        const data = await ls(currentDirectory);
         const formattedData = data.map(({ name, type }) => ({
           Name: name,
           Type: type,
@@ -57,13 +50,18 @@ rl.on('line', async (input) => {
         break;
 
       case 'cd':
-        currentDirectory = await changeDirectory(args[0]);
+        currentDirectory = await cd(args[0], currentDirectory);
+        rl.setPrompt(PROMPT_MESSAGE(currentDirectory));
+        break;
+
+      case 'up':
+        currentDirectory = await cd('..', currentDirectory);
         rl.setPrompt(PROMPT_MESSAGE(currentDirectory));
         break;
 
       case 'cat':
-        const content = await cat(currentDirectory + '/' + args[0]);
-        console.log(content);
+        await cat(currentDirectory + '/' + args[0], rl.prompt.bind(rl));
+
         break;
 
       case 'add':
@@ -91,9 +89,8 @@ rl.on('line', async (input) => {
         break;
 
       case 'hash':
-        await hash(args[0],  currentDirectory);
+        await hash(args[0], currentDirectory);
         break;
-
 
       case 'compress':
         await compress(args[0], args[1], currentDirectory);
@@ -109,8 +106,7 @@ rl.on('line', async (input) => {
     rl.setPrompt(PROMPT_MESSAGE(currentDirectory));
   } catch (e) {
     console.log('Operation failed');
-    // TODO: remove
-    console.error(e);
+
   }
 
   rl.prompt();

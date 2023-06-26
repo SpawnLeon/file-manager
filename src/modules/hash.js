@@ -1,5 +1,5 @@
-import { createReadStream } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { createReadStream } from 'node:fs';
 import { resolve } from 'node:path';
 
 async function hash(filePath, cwd = process.cwd()) {
@@ -9,7 +9,7 @@ async function hash(filePath, cwd = process.cwd()) {
 
   createReadStream(absolutePath)
     .pipe(hash)
-    .on('finish', function () {
+    .on('finish', function() {
       console.log(this.read()); // the hash
     });
 }
