@@ -10,7 +10,9 @@ import listDirectory from './modules/file-system/list-directory.js';
 import mv from './modules/file-system/mv.js';
 import rm from './modules/file-system/rm.js';
 import rn from './modules/file-system/rn.js';
+import hash from './modules/hash.js';
 import printSystemInfo from './modules/os.js';
+import compress from './modules/zip/compress.js';
 
 const args = getArguments();
 const username = args.username || 'Guest';
@@ -70,17 +72,30 @@ rl.on('line', async (input) => {
       case 'rn':
         await rn(args[0], args[1], currentDirectory);
         break;
+
       case 'cp':
         await cp(args[0], args[1], currentDirectory);
         break;
+
       case 'mv':
         await mv(args[0], args[1], currentDirectory);
         break;
+
       case 'rm':
         await rm(args[0], currentDirectory);
         break;
+
       case 'os':
         printSystemInfo(args[0]);
+        break;
+
+      case 'hash':
+        await hash(args[0],  currentDirectory);
+        break;
+
+
+      case 'compress':
+        await compress(args[0], args[1], currentDirectory);
         break;
 
       default:
