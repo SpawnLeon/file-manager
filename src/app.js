@@ -13,6 +13,7 @@ import rn from './modules/file-system/rn.js';
 import hash from './modules/hash.js';
 import printSystemInfo from './modules/os.js';
 import compress from './modules/zip/compress.js';
+import decompress from './modules/zip/decompress.js';
 
 const args = getArguments();
 const username = args.username || 'Guest';
@@ -96,6 +97,10 @@ rl.on('line', async (input) => {
 
       case 'compress':
         await compress(args[0], args[1], currentDirectory);
+        break;
+
+      case 'decompress':
+        await decompress(args[0], args[1], currentDirectory);
         break;
 
       default:
